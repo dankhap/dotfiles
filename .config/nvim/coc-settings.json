@@ -2,6 +2,7 @@
 	"python.venvPath": "/home/daniel/anaconda3/envs/",
 	"coc.preferences.formatOnSaveFiletypes": [
 		"css",
+		"tex",
 		"markdown",
 		"javascript",
 		"graphql",

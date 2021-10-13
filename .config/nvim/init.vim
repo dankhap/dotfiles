@@ -9,13 +9,6 @@ set autoindent
 set backspace=indent,eol,start
 set smarttab
 
-inoremap " ""<left>
-inoremap ' ''<left>
-inoremap ( ()<left>
-inoremap [ []<left>
-inoremap { {}<left>
-inoremap {<CR> {<CR>}<ESC>O
-inoremap {;<CR> {<CR>};<ESC>O
 
 set nrformats-=octal
 if !has('nvim') && &ttimeoutlen == -1
@@ -41,6 +34,15 @@ endif
 "     inoremap <C-e> <esc>:w | make -j8 <cr>
 " endfunction
 
+function! s:DiffWithSaved()
+  let filetype=&ft
+  diffthis
+  vnew | r # | normal! 1Gdd
+  diffthis
+  exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
+endfunction
+com! DiffSaved call s:DiffWithSaved()
+
 " Specify a directory for plugins
 " - For Neovim: stdpath('data') . '/plugged'
 " - Avoid using standard Vim directory names like 'plugin'
@@ -59,11 +61,15 @@ Plug 'morhetz/gruvbox'
 Plug 'vim-scripts/a.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'drmikehenry/vim-headerguard'
+
 Plug 'luochen1990/rainbow'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tenfyzhong/vim-gencode-cpp'
 Plug 'b3nj5m1n/kommentary'
+Plug 'tpope/vim-fugitive'
+Plug 'jiangmiao/auto-pairs'
 " Initialize plugin system
 call plug#end()
 
@@ -85,6 +91,7 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:UltiSnipsEditSplit="vertical"
 source $HOME/.config/nvim/plug-config/coc.vim
 source $HOME/.config/nvim/plug-config/fzf.vim
+source $HOME/.config/nvim/plug-config/tex.vim
 let g:vimspector_enable_mappings = 'HUMAN'
 packadd! vimspector
 syntax on
